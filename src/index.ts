@@ -23,5 +23,6 @@ for(let i:number = 0 ; i<8; i++){
   column.push({position:posToId(i,7),content:new gameArrange[i]("black")});
   game.push(column);
 }
+game[4][4]={position:posToId(4,4),content: new Rook("black")}
 console.log(game)
 const board = new Board(game);

@@ -79,15 +79,21 @@ export class Pawn extends Piece{
         this.counter=0;
     }
     movingOptions(position:string):string[]{
-        const [i,j]=idToPos(position);
-        console.log(position,i,j)
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
         if(this.color==="white"){
-            const possibleNextPositions: number[][] = [[i, j + 1], [i, j + 2]].filter(([a, b]) => possibleMove(a, b));
-            return possibleNextPositions.map(([a,b])=>posToId(a,b));
+            possibleNextPositions.push([i, j + 1]);
+            if(this.counter==0){
+                possibleNextPositions.push([i, j + 2]);
+            }
         }else{
-            const possibleNextPositions: number[][] = [[i, j - 1], [i, j - 2]].filter(([a, b]) => possibleMove(a, b));
-            return possibleNextPositions.map(([a,b])=>posToId(a,b));
+            possibleNextPositions.push([i, j - 1]);
+            if(this.counter==0){
+                possibleNextPositions.push([i, j - 2]);
+            }
         }
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
         
     }
 

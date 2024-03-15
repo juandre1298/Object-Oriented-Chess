@@ -11,7 +11,6 @@ export class Board {
     constructor(game:gameType){
         this.size=8;
         this.jail=[];
-        console.log(game)
         this.game=game;
         this.display()
     }
@@ -59,7 +58,6 @@ export class Board {
         return newCell;
     }
     addPieceToEmptyCell(piece:Piece,emptyCell:HTMLDivElement){
-        console.log("piece",piece)
         const pieceElement = document.createElement("div");
             pieceElement.id = piece.id;
             pieceElement.className = "piece";
@@ -69,7 +67,6 @@ export class Board {
     }
     handleClick(id:string){
         const [column,row]=idToPos(id);
-        console.log("handleClick",id,column,row,this.game[column][row].content);
         const content=this.game[column][row].content;
         if(content!=null){
             this.clickedPiece(id,content);
