@@ -27,6 +27,21 @@ export class King extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
+        possibleNextPositions.push([i+1,j+1]); 
+        possibleNextPositions.push([i-1,j+1]); 
+        possibleNextPositions.push([i-1,j-1]); 
+        possibleNextPositions.push([i+1,j-1]); 
+        possibleNextPositions.push([i,j+1]);  
+        possibleNextPositions.push([i+1,j]); 
+        possibleNextPositions.push([i,j-1]);  
+        possibleNextPositions.push([i-1,j]); 
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+    }
+    
 }
 export class Queen extends Piece{
     type:ChessPieceType;
@@ -35,7 +50,23 @@ export class Queen extends Piece{
         super(color);
         this.type = ChessPieceType.Queen;
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
-       
+  
+    }
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
+        for(let c:number = 0;c<8;c++){
+            possibleNextPositions.push([i+c,j+c]); 
+            possibleNextPositions.push([i-c,j+c]); 
+            possibleNextPositions.push([i-c,j-c]); 
+            possibleNextPositions.push([i+c,j-c]); 
+            possibleNextPositions.push([i,c]);  
+            possibleNextPositions.push([c,j]); 
+          
+            // possibleNextPositions.push([c,c]);  
+        }
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
     }
 }
 export class Bishop extends Piece{
@@ -46,6 +77,20 @@ export class Bishop extends Piece{
         this.type = ChessPieceType.Bishop;
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
+    }
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
+        for(let c:number = 0;c<8;c++){
+            possibleNextPositions.push([i+c,j+c]); 
+            possibleNextPositions.push([i-c,j+c]); 
+            possibleNextPositions.push([i-c,j-c]); 
+            possibleNextPositions.push([i+c,j-c]); 
+             
+            // possibleNextPositions.push([c,c]);  
+        }
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
     }
 }
 export class Knight extends Piece{
