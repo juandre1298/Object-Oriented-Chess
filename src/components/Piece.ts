@@ -57,6 +57,21 @@ export class Knight extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
+
+        possibleNextPositions.push([i - 2, j - 1]);
+        possibleNextPositions.push([i - 1, j - 2]);
+        possibleNextPositions.push([i + 2, j + 1]);
+        possibleNextPositions.push([i + 1, j + 2]);
+        possibleNextPositions.push([i - 2, j + 1]);
+        possibleNextPositions.push([i - 1, j + 2]);
+        possibleNextPositions.push([i + 2, j - 1]);
+        possibleNextPositions.push([i + 1, j - 2]);
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+    }
 }
 export class Rook extends Piece{
     type:ChessPieceType;
@@ -66,6 +81,17 @@ export class Rook extends Piece{
         this.type = ChessPieceType.Rook;
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
+    }
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][]=[];
+        for(let c:number = 0;c<8;c++){
+            possibleNextPositions.push([i,c]);  
+            possibleNextPositions.push([c,j]);  
+            
+        }
+        possibleNextPositions.filter(([a, b]) => possibleMove(a, b));
+        return possibleNextPositions.map(([a,b])=>posToId(a,b));
     }
 }
 export class Pawn extends Piece{
