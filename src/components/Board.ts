@@ -1,6 +1,6 @@
 import type { Piece } from "./Piece";
 import type { gameType } from "../types";
-import { idToPos } from "src/utils";
+import { idToPos } from "../utils";
 
 
 export class Board {
@@ -36,10 +36,9 @@ export class Board {
         })
     }
     createEmptyCell(position:string){
-    
         const [i,j]=idToPos(position);
         const newCell = document.createElement("div");
-        const id= String.fromCharCode(i+97)+(j+1).toString();
+        const id= position;
         newCell.id= id;
         newCell.textContent=id;
         newCell.addEventListener("click",()=>this.handleClick(id))
@@ -71,19 +70,29 @@ export class Board {
     handleClick(id:string){
         const [column,row]=idToPos(id);
         console.log("handleClick",id,column,row,this.game[column][row].content);
-        if(this.game[column][row].content){
-            this.clickedPiece(id);
+        const content=this.game[column][row].content;
+        if(content!=null){
+            this.clickedPiece(id,content);
         }else{
             this.clickedEmptyCell(id);
         }
     }
-    clickedPiece(id:string){
+    clickedPiece(id:string,piece:Piece){
             const selectedElement = document.getElementById(id);
             if(selectedElement){
                 if(selectedElement.className.includes(" selected")){
                     selectedElement.className=selectedElement.className.replace(" selected","");
+                    const possiblePositions:string[] = piece.movingOptions(id);
+                    if(possiblePositions){
+                        this.displayOptions(possiblePositions);
+                    }
                 }else{
                     selectedElement.className+=" selected";
+                    const possiblePositions:string[] = piece.movingOptions(id);
+                    if(possiblePositions){
+                        this.displayOptions(possiblePositions);
+                    }
+
                 }
             }else{
                 alert("id doesn't found"+id)
@@ -102,6 +111,19 @@ export class Board {
             alert("id doesn't found"+id)
         }
     }
+    displayOptions(possiblePositions:string[]){
+        possiblePositions.forEach(e=>{
+            const selectedElement = document.getElementById(e);
+            if(selectedElement){
+                if(selectedElement.className.includes(" option")){
+                    selectedElement.className=selectedElement.className.replace(" option","");
+                }else{
+                    selectedElement.className+=" option";
+                }
+            }
+        })
+    }
+
 
 }
 

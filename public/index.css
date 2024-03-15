@@ -58,6 +58,11 @@
 .empty{
   background-color: red;
 }
+.option{
+  background-color: rgb(47, 158, 255);
+  border: 1px yellow solid;
+  box-sizing: border-box;
+}
 
 .piece{
  position:absolute;

@@ -6,6 +6,14 @@ export function idToPos(id:string){
     const row:number = parseInt(id[1])-1;
         return [column,row];
 }
-export function posToId(i:number,j:number){
+export function posToId(i:number,j:number):string{
     return String.fromCharCode(97+i)+(j+1).toString();
 };
+
+export function possibleMove(i:number,j:number):boolean{
+    if(i >= 0 && i <= 7 && j >= 0 && j <= 7 ) {
+        return true;
+    }else{
+        return false;
+    }
+}

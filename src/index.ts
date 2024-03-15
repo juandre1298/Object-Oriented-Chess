@@ -1,7 +1,6 @@
 import type { cell,gameType } from "./types";
-import { Pawn } from "./components/Piece";
 import { Board } from "./components/Board";
-import { Piece, Rook, Knight, Bishop, King, Queen } from "./components/Piece";
+import { Piece, Rook, Knight, Bishop, King, Queen, Pawn } from "./components/Piece";
 import { posToId } from "./utils";
 
 
@@ -17,7 +16,7 @@ for(let i:number = 0 ; i<8; i++){
   
   column.push({position:posToId(i,0),content:new gameArrange[i]("white")});
   column.push({position:posToId(i,1),content:new Pawn("white")});
-  for(let c:number = 3;c<7;c++){
+  for(let c:number = 2;c<6;c++){
     column.push({position:posToId(i,c).toString(),content:null});
   }
   column.push({position:posToId(i,6),content:new Pawn("black")});

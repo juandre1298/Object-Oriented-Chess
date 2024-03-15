@@ -1,5 +1,5 @@
 import { Color, ChessPieceType } from "../types";
-import { uid, idToPos } from "../utils";
+import { uid, idToPos, posToId, possibleMove } from "../utils";
 
 export class Piece{
     id:string;
@@ -11,6 +11,9 @@ export class Piece{
     this.id=uid();
     this.color=color;
 
+    }
+    movingOptions(position:string){
+        return [""];
     }
 
 }
@@ -75,12 +78,19 @@ export class Pawn extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`
         this.counter=0;
     }
-    movingOptions(position:string){
-
-        if(this.counter>0){
-
+    movingOptions(position:string):string[]{
+        const [i,j]=idToPos(position);
+        console.log(position,i,j)
+        if(this.color==="white"){
+            const possibleNextPositions: number[][] = [[i, j + 1], [i, j + 2]].filter(([a, b]) => possibleMove(a, b));
+            return possibleNextPositions.map(([a,b])=>posToId(a,b));
+        }else{
+            const possibleNextPositions: number[][] = [[i, j - 1], [i, j - 2]].filter(([a, b]) => possibleMove(a, b));
+            return possibleNextPositions.map(([a,b])=>posToId(a,b));
         }
+        
     }
+
 
 
 }
