@@ -128,7 +128,7 @@ export class Bishop extends Piece{
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        console.log("queen moving")
+        console.log("Bishop moving")
         let possibleNextPositions: number[][][]= [];
         let upLeft:number[][]=[];
         let upRight:number[][]=[];
@@ -189,16 +189,32 @@ export class Rook extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
-    movingOptions(position:string,game:gameType):string[]{
+    movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        let possibleNextPositions: number[][]=[];
+        console.log("rook moving")
+        let possibleNextPositions: number[][][]= [];
+        let up:number[][]=[];
+        let down:number[][]=[];
+        let left:number[][]=[];
+        let right:number[][]=[];
+        
+        
+
         for(let c:number = 0;c<8;c++){
-            possibleNextPositions.push([i,c]);  
-            possibleNextPositions.push([c,j]);  
-            
+            up.push([i,j+c]);
+            down.push([i,j-c]);
+            left.push([i-c,j]);
+            right.push([i+c,j]);
         }
-        possibleNextPositions=possibleMoves([i,j],possibleNextPositions,game);
-        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+        possibleNextPositions.push(up);
+        possibleNextPositions.push(down);
+        possibleNextPositions.push(left);
+        possibleNextPositions.push(right);
+        
+        const {optionsArray,colitionArray}:{[key:string]:number[][]}=possibleMoves([i,j],possibleNextPositions,game);
+        // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
+        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
 }
 export class Pawn extends Piece{
