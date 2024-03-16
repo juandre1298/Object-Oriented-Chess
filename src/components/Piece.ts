@@ -199,21 +199,72 @@ export class Knight extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
-    movingOptions(position:string,game:gameType):string[]{
-        const [i,j]=idToPos(position);  
-        let possibleNextPositions: number[][]=[];
+    // movingOptions(position:string,game:gameType):string[]{
+    //     const [i,j]=idToPos(position);  
+    //     let possibleNextPositions: number[][]=[];
 
-        possibleNextPositions.push([i - 2, j - 1]);
-        possibleNextPositions.push([i - 1, j - 2]);
-        possibleNextPositions.push([i + 2, j + 1]);
-        possibleNextPositions.push([i + 1, j + 2]);
-        possibleNextPositions.push([i - 2, j + 1]);
-        possibleNextPositions.push([i - 1, j + 2]);
-        possibleNextPositions.push([i + 2, j - 1]);
-        possibleNextPositions.push([i + 1, j - 2]);
-        possibleNextPositions=this.possibleMoves([i,j],possibleNextPositions,game);
-        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+    //     possibleNextPositions.push([i - 2, j - 1]);
+    //     possibleNextPositions.push([i - 1, j - 2]);
+    //     possibleNextPositions.push([i + 2, j + 1]);
+    //     possibleNextPositions.push([i + 1, j + 2]);
+    //     possibleNextPositions.push([i - 2, j + 1]);
+    //     possibleNextPositions.push([i - 1, j + 2]);
+    //     possibleNextPositions.push([i + 2, j - 1]);
+    //     possibleNextPositions.push([i + 1, j - 2]);
+    //     possibleNextPositions=this.possibleMoves([i,j],possibleNextPositions,game);
+    //     return possibleNextPositions.map(([a,b])=>posToId(a,b));
+    // }
+    movingOptions(position:string,game:gameType):movingOptionsType{
+        const [i,j]=idToPos(position);  
+        let possibleNextPositions: number[][][]=[];
+        possibleNextPositions.push([[i, j]]);
+
+        possibleNextPositions.push([[i - 2, j - 1]]);
+        possibleNextPositions.push([[i - 1, j - 2]]);
+        possibleNextPositions.push([[i + 2, j + 1]]);
+        possibleNextPositions.push([[i + 1, j + 2]]);
+        possibleNextPositions.push([[i - 2, j + 1]]);
+        possibleNextPositions.push([[i - 1, j + 2]]);
+        possibleNextPositions.push([[i + 2, j - 1]]);
+        possibleNextPositions.push([[i + 1, j - 2]]);
+     
+        const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
+        // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
+        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
+    possibleMoves(currentPosition:number[],options:number[][][],game:gameType):{[key:string]: number[][]}{
+        const optionsArray:number[][] = [];
+        const colitionArray:number[][] = [];
+        const color = game[currentPosition[0]][currentPosition[1]].content?.color;
+        console.log(options)
+        for(let direction of options ){
+            let c:number=0;
+            let i:number = direction[c][0];
+            let j:number = direction[c][1];
+            console.log(i,j)
+                if(i>=0 && i <8 && j>=0 && j <8){
+                    // console.log(c,i,j,game[i][j].content)
+                    const cell = game[i][j].content;
+                    
+                    if(cell){
+                        if(cell.color!==color){
+                            colitionArray.push([i,j])
+                        }
+                        
+                    }else{
+                        optionsArray.push([i,j]) 
+                        
+                    }
+                }else{
+                    
+                }
+    
+            
+        }
+        return {optionsArray,colitionArray};
+    }
+
 }
 export class Rook extends Piece{
     type:ChessPieceType;
