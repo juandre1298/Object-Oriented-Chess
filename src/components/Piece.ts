@@ -1,5 +1,5 @@
-import { Color, ChessPieceType, gameType, movingOptionsType } from "../types";
-import { uid, idToPos, posToId, possibleMoves } from "../utils";
+import { Color, ChessPieceType, gameType, movingOptionsType, cell } from "../types";
+import { uid, idToPos, posToId } from "../utils";
 
 export class Piece{
     id:string;
@@ -262,23 +262,88 @@ export class Pawn extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`
         this.counter=0;
     }
-    movingOptions(position:string,game:gameType):string[]{
+    movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        let possibleNextPositions: number[][]=[];
+        let possibleNextPositions: number[][][]=[];
+        possibleNextPositions.push([[i, j]]);
         if(this.color==="white"){
-            possibleNextPositions.push([i, j + 1]);
+            possibleNextPositions[0].push([i, j + 1]);
             if(this.counter==0){
-                possibleNextPositions.push([i, j + 2]);
+                possibleNextPositions[0].push([i, j + 2]);
             }
         }else{
-            possibleNextPositions.push([i, j - 1]);
+            possibleNextPositions[0].push([i, j - 1]);
             if(this.counter==0){
-                possibleNextPositions.push([i, j - 2]);
+                possibleNextPositions[0].push([i, j - 2]);
             }
         }
-        possibleNextPositions=this.possibleMoves([i,j],possibleNextPositions,game);
-        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+
+        const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
+        // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
+        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
+    possibleMoves(currentPosition:number[],options:number[][][],game:gameType):{[key:string]: number[][]}{
+        const optionsArray:number[][] = [];
+        const colitionArray:number[][] = [];
+        const i:number=currentPosition[0];
+        const j:number=currentPosition[1];
+        const color = game[currentPosition[0]][currentPosition[1]].content?.color;
+        console.log(options)
+        for(let direction of options ){
+            let c:number=1;
+            let i:number = direction[c][0];
+            let j:number = direction[c][1];
+            // console.log(direction[c])
+            while(c<options[0].length && i>=0 && i <8 && j>=0 && j <8){
+                
+                i = direction[c][0];
+                j = direction[c][1];
+                if(i>=0 && i <8 && j>=0 && j <8){
+                    // console.log(c,i,j,game[i][j].content)
+                    const cell = game[i][j].content;
+                    
+                    if(cell){
+                        // if(cell.color!==color){
+                        //     colitionArray.push([i,j])
+                        // }
+                        break;
+                    }else{
+                        c++;
+                        optionsArray.push([i,j]) 
+                    }
+                }else{
+                    break;
+                }
+    
+            }
+        }
+        // check for posible victims
+        if(color=="white"){
+            const right:cell = game[i+1][j+1];
+            const left:cell = game[i-1][j+1];
+            console.log(right,left)
+            if(right.content){
+                colitionArray.push([i+1,j+1]);
+            }
+            if(left.content){
+                colitionArray.push([i-1,j+1]);
+            }
+        }else{
+            const right:cell = game[i+1][j-1];
+            const left:cell = game[i-1][j-1];
+            console.log(right,left)
+            if(right.content){
+                colitionArray.push([i+1,j-1]);
+            }
+            if(left.content){
+                colitionArray.push([i-1,j-1]);
+            }
+            
+        }
+        return {optionsArray,colitionArray};
+    }
+
 }
 
 
