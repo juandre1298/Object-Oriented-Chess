@@ -19,18 +19,18 @@ export class Piece{
         const optionsArray:number[][] = [];
         const colitionArray:number[][] = [];
         const color = game[currentPosition[0]][currentPosition[1]].content?.color;
-        console.log(options)
+        
         for(let direction of options ){
             let c:number=1;
             let i:number = direction[c][0];
             let j:number = direction[c][1];
-            // console.log(direction[c])
+            
             while(c<options[0].length && i>=0 && i <8 && j>=0 && j <8){
                 
                 i = direction[c][0];
                 j = direction[c][1];
                 if(i>=0 && i <8 && j>=0 && j <8){
-                    // console.log(c,i,j,game[i][j].content)
+                    
                     const cell = game[i][j].content;
                     
                     if(cell){
@@ -64,7 +64,7 @@ export class King extends Piece{
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        console.log("queen moving")
+        
         let possibleNextPositions: number[][][]= [];
         let up:number[][]=[];
         let down:number[][]=[];
@@ -98,7 +98,7 @@ export class King extends Piece{
         
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
     
@@ -114,7 +114,7 @@ export class Queen extends Piece{
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        console.log("queen moving")
+        
         let possibleNextPositions: number[][][]= [];
         let up:number[][]=[];
         let down:number[][]=[];
@@ -148,7 +148,7 @@ export class Queen extends Piece{
         
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
 }
@@ -163,7 +163,7 @@ export class Bishop extends Piece{
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        console.log("Bishop moving")
+        
         let possibleNextPositions: number[][][]= [];
         let upLeft:number[][]=[];
         let upRight:number[][]=[];
@@ -186,7 +186,7 @@ export class Bishop extends Piece{
         
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
 }
@@ -230,21 +230,21 @@ export class Knight extends Piece{
      
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
     possibleMoves(currentPosition:number[],options:number[][][],game:gameType):{[key:string]: number[][]}{
         const optionsArray:number[][] = [];
         const colitionArray:number[][] = [];
         const color = game[currentPosition[0]][currentPosition[1]].content?.color;
-        console.log(options)
+        
         for(let direction of options ){
             let c:number=0;
             let i:number = direction[c][0];
             let j:number = direction[c][1];
-            console.log(i,j)
+            
                 if(i>=0 && i <8 && j>=0 && j <8){
-                    // console.log(c,i,j,game[i][j].content)
+                    
                     const cell = game[i][j].content;
                     
                     if(cell){
@@ -277,7 +277,7 @@ export class Rook extends Piece{
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        console.log("rook moving")
+        
         let possibleNextPositions: number[][][]= [];
         let up:number[][]=[];
         let down:number[][]=[];
@@ -299,7 +299,7 @@ export class Rook extends Piece{
         
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
 }
@@ -331,7 +331,7 @@ export class Pawn extends Piece{
 
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
-        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
     possibleMoves(currentPosition:number[],options:number[][][],game:gameType):{[key:string]: number[][]}{
@@ -340,18 +340,18 @@ export class Pawn extends Piece{
         const i:number=currentPosition[0];
         const j:number=currentPosition[1];
         const color = game[currentPosition[0]][currentPosition[1]].content?.color;
-        console.log(options)
+        
         for(let direction of options ){
             let c:number=1;
             let i:number = direction[c][0];
             let j:number = direction[c][1];
-            // console.log(direction[c])
+            
             while(c<options[0].length && i>=0 && i <8 && j>=0 && j <8){
                 
                 i = direction[c][0];
                 j = direction[c][1];
                 if(i>=0 && i <8 && j>=0 && j <8){
-                    // console.log(c,i,j,game[i][j].content)
+                    
                     const cell = game[i][j].content;
                     
                     if(cell){
@@ -373,7 +373,7 @@ export class Pawn extends Piece{
         if(color=="white"){
             const right:cell = game[i+1][j+1];
             const left:cell = game[i-1][j+1];
-            console.log(right,left)
+            
             if(right.content){
                 colitionArray.push([i+1,j+1]);
             }
@@ -383,7 +383,7 @@ export class Pawn extends Piece{
         }else{
             const right:cell = game[i+1][j-1];
             const left:cell = game[i-1][j-1];
-            console.log(right,left)
+            
             if(right.content){
                 colitionArray.push([i+1,j-1]);
             }
