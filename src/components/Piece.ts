@@ -1,4 +1,4 @@
-import { Color, ChessPieceType, gameType } from "../types";
+import { Color, ChessPieceType, gameType, movingOptionsType } from "../types";
 import { uid, idToPos, posToId, possibleMoves } from "../utils";
 
 export class Piece{
@@ -12,8 +12,8 @@ export class Piece{
     this.color=color;
 
     }
-    movingOptions(position:string,game:gameType){
-        return {"":[]};
+    movingOptions(position:string,game:gameType):movingOptionsType{
+        return {optionsArray:[],colitionArray:[]}
     }
 
 }
@@ -27,19 +27,44 @@ export class King extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
-    movingOptions(position:string,game:gameType):string[]{
+    movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
-        let possibleNextPositions: number[][]=[];
-        possibleNextPositions.push([i+1,j+1]); 
-        possibleNextPositions.push([i-1,j+1]); 
-        possibleNextPositions.push([i-1,j-1]); 
-        possibleNextPositions.push([i+1,j-1]); 
-        possibleNextPositions.push([i,j+1]);  
-        possibleNextPositions.push([i+1,j]); 
-        possibleNextPositions.push([i,j-1]);  
-        possibleNextPositions.push([i-1,j]); 
-        possibleNextPositions=possibleMoves([i,j],possibleNextPositions,game);
-        return possibleNextPositions.map(([a,b])=>posToId(a,b));
+        console.log("queen moving")
+        let possibleNextPositions: number[][][]= [];
+        let up:number[][]=[];
+        let down:number[][]=[];
+        let left:number[][]=[];
+        let right:number[][]=[];
+        let upLeft:number[][]=[];
+        let upRight:number[][]=[];
+        let downLeft:number[][]=[];
+        let downRight:number[][]=[];
+        
+        
+
+        for(let c:number = 0;c<=1;c++){
+            up.push([i,j+c]);
+            down.push([i,j-c]);
+            left.push([i-c,j]);
+            right.push([i+c,j]);
+            upLeft.push([i-c,j+c]);
+            upRight.push([i+c,j+c]);
+            downLeft.push([i-c,j-c]);
+            downRight.push([i+c,j-c]);
+        }
+        possibleNextPositions.push(up);
+        possibleNextPositions.push(down);
+        possibleNextPositions.push(left);
+        possibleNextPositions.push(right);
+        possibleNextPositions.push(upLeft);
+        possibleNextPositions.push(upRight);
+        possibleNextPositions.push(downLeft);
+        possibleNextPositions.push(downRight);
+        
+        const {optionsArray,colitionArray}:{[key:string]:number[][]}=possibleMoves([i,j],possibleNextPositions,game);
+        // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
+        console.log(optionsArray.map(([a,b])=>posToId(a,b)),colitionArray)
+        return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
     }
     
 }
@@ -52,7 +77,7 @@ export class Queen extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
   
     }
-    movingOptions(position:string,game:gameType):{[key:string]:string[]}{
+    movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
         console.log("queen moving")
         let possibleNextPositions: number[][][]= [];

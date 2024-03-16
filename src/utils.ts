@@ -16,13 +16,13 @@ export function possibleMoves(currentPosition:number[],options:number[][][],game
     const optionsArray:number[][] = [];
     const colitionArray:number[][] = [];
     const color = game[currentPosition[0]][currentPosition[1]].content?.color;
-    
+    console.log(options)
     for(let direction of options ){
         let c:number=1;
         let i:number = direction[c][0];
         let j:number = direction[c][1];
         // console.log(direction[c])
-        while(c<8 && i>=0 && i <8 && j>=0 && j <8){
+        while(c<options[0].length && i>=0 && i <8 && j>=0 && j <8){
             
             i = direction[c][0];
             j = direction[c][1];

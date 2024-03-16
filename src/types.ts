@@ -17,3 +17,9 @@ export interface cell{
 export type Color = "black"|"white";
 
 export type gameType=cell[][];
+
+
+export interface movingOptionsType {
+    optionsArray: string[];
+    colitionArray: string[];
+};

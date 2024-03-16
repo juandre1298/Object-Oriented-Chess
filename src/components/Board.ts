@@ -1,5 +1,5 @@
 import type { Piece } from "./Piece";
-import type { gameType } from "../types";
+import type { gameType, movingOptionsType } from "../types";
 import { idToPos } from "../utils";
 
 
@@ -79,14 +79,14 @@ export class Board {
             if(selectedElement){
                 if(selectedElement.className.includes(" selected")){
                     selectedElement.className=selectedElement.className.replace(" selected","");
-                    const possiblePositions:{[key:string]:string[]} = piece.movingOptions(id,this.game);
+                    const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
                         this.treatedOptions(possiblePositions.colitionArray)
                     }
                 }else{
                     selectedElement.className+=" selected";
-                    const possiblePositions:{[key:string]:string[]} = piece.movingOptions(id,this.game);
+                    const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
                         this.treatedOptions(possiblePositions.colitionArray)
