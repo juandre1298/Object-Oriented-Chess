@@ -1,5 +1,5 @@
 import type { Piece } from "./Piece";
-import type { gameType, movingOptionsType } from "../types";
+import type { gameType, movingOptionsType, cell } from "../types";
 import { idToPos } from "../utils";
 
 
@@ -7,16 +7,22 @@ export class Board {
     size:number;
     jail:Piece[];
     game:gameType;
+    selectedCell:cell;
 
     constructor(game:gameType){
         this.size=8;
         this.jail=[];
         this.game=game;
-        this.display()
+        this.selectedCell={position: "i9", content: null};
+        this.display();
+        
     }
 
     display(){
         const boardDisplaySection = document.getElementById("gameBoardSection");
+        if(boardDisplaySection){
+            boardDisplaySection.innerHTML="";
+        }
         this.game.forEach((column,i) =>{
                             const columnDiv = document.createElement("div");
                             columnDiv.className="boardColumn"
@@ -68,15 +74,22 @@ export class Board {
     handleClick(id:string){
         const [column,row]=idToPos(id);
         const content=this.game[column][row].content;
+        if(id!=this.selectedCell.position && content){
+            this.display();
+        }
+        
+        this.selectedCell=this.game[column][row];
         if(content!=null){
-            this.clickedPiece(id,content);
+            this.clickedPiece();
         }else{
             this.clickedEmptyCell(id);
         }
     }
-    clickedPiece(id:string,piece:Piece){
+    clickedPiece(){
+            const id=this.selectedCell.position;
+            const piece=this.selectedCell.content;
             const selectedElement = document.getElementById(id);
-            if(selectedElement){
+            if(selectedElement && piece){
                 if(selectedElement.className.includes(" selected")){
                     selectedElement.className=selectedElement.className.replace(" selected","");
                     const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
@@ -95,7 +108,7 @@ export class Board {
 
                 }
             }else{
-                alert("id doesn't found"+id)
+             //   alert("id doesn't found"+id)
             }   
     }
     clickedEmptyCell(id:string){

@@ -1,4 +1,4 @@
-import type { gameType } from "./types";
+import type { gameType,cell } from "./types";
 
 export function uid(){
     return Date.now().toString(36) + Math.random().toString(36);
@@ -11,5 +11,3 @@ export function idToPos(id:string){
 export function posToId(i:number,j:number):string{
     return String.fromCharCode(97+i)+(j+1).toString();
 };
-
-

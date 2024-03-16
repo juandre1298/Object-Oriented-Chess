@@ -199,21 +199,7 @@ export class Knight extends Piece{
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
        
     }
-    // movingOptions(position:string,game:gameType):string[]{
-    //     const [i,j]=idToPos(position);  
-    //     let possibleNextPositions: number[][]=[];
 
-    //     possibleNextPositions.push([i - 2, j - 1]);
-    //     possibleNextPositions.push([i - 1, j - 2]);
-    //     possibleNextPositions.push([i + 2, j + 1]);
-    //     possibleNextPositions.push([i + 1, j + 2]);
-    //     possibleNextPositions.push([i - 2, j + 1]);
-    //     possibleNextPositions.push([i - 1, j + 2]);
-    //     possibleNextPositions.push([i + 2, j - 1]);
-    //     possibleNextPositions.push([i + 1, j - 2]);
-    //     possibleNextPositions=this.possibleMoves([i,j],possibleNextPositions,game);
-    //     return possibleNextPositions.map(([a,b])=>posToId(a,b));
-    // }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
         let possibleNextPositions: number[][][]=[];
@@ -371,8 +357,8 @@ export class Pawn extends Piece{
         }
         // check for posible victims
         if(color=="white"){
-            const right:cell = game[i+1][j+1];
-            const left:cell = game[i-1][j+1];
+            const right:cell = this.checkIfCellExiste(i+1,j+1,game);
+            const left:cell = this.checkIfCellExiste(i-1,j+1,game);
             
             if(right.content){
                 colitionArray.push([i+1,j+1]);
@@ -381,8 +367,8 @@ export class Pawn extends Piece{
                 colitionArray.push([i-1,j+1]);
             }
         }else{
-            const right:cell = game[i+1][j-1];
-            const left:cell = game[i-1][j-1];
+            const right:cell = this.checkIfCellExiste(i+1,j-1,game);
+            const left:cell = this.checkIfCellExiste(i-1,j-1,game);
             
             if(right.content){
                 colitionArray.push([i+1,j-1]);
@@ -394,6 +380,10 @@ export class Pawn extends Piece{
         }
         return {optionsArray,colitionArray};
     }
+    checkIfCellExiste(i:number,j:number,game:gameType):cell{
+        return i > 0 && j > 0 && i < 8 && j < 8 ? game[i][j] : {content:null,position:""}
+    }
+    
 
 }
 
