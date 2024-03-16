@@ -23,7 +23,7 @@ for(let i:number = 0 ; i<8; i++){
   column.push({position:posToId(i,7),content:new gameArrange[i]("black")});
   game.push(column);
 }
-game[4][4]={position:posToId(4,4),content: new King("white")}
+game[4][4]={position:posToId(4,4),content: new Bishop("white")}
 game[3][4]={position:posToId(3,4),content: new Queen("black")}
 
 const board = new Board(game);
