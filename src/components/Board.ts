@@ -79,15 +79,18 @@ export class Board {
             if(selectedElement){
                 if(selectedElement.className.includes(" selected")){
                     selectedElement.className=selectedElement.className.replace(" selected","");
-                    const possiblePositions:string[] = piece.movingOptions(id);
+                    const possiblePositions:{[key:string]:string[]} = piece.movingOptions(id,this.game);
                     if(possiblePositions){
-                        this.displayOptions(possiblePositions);
+                        this.displayOptions(possiblePositions.optionsArray);
+                        this.treatedOptions(possiblePositions.colitionArray)
                     }
                 }else{
                     selectedElement.className+=" selected";
-                    const possiblePositions:string[] = piece.movingOptions(id);
+                    const possiblePositions:{[key:string]:string[]} = piece.movingOptions(id,this.game);
                     if(possiblePositions){
-                        this.displayOptions(possiblePositions);
+                        this.displayOptions(possiblePositions.optionsArray);
+                        this.treatedOptions(possiblePositions.colitionArray)
+
                     }
 
                 }
@@ -116,6 +119,18 @@ export class Board {
                     selectedElement.className=selectedElement.className.replace(" option","");
                 }else{
                     selectedElement.className+=" option";
+                }
+            }
+        })
+    }
+    treatedOptions(possiblePositions:string[]){
+        possiblePositions.forEach(e=>{
+            const selectedElement = document.getElementById(e);
+            if(selectedElement){
+                if(selectedElement.className.includes(" treated")){
+                    selectedElement.className=selectedElement.className.replace(" treated","");
+                }else{
+                    selectedElement.className+=" treated";
                 }
             }
         })

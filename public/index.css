@@ -47,7 +47,7 @@
   position: relative;
 }
 .black{
-  background-color:  #FF5733 ;
+  background-color:  darkgreen ;
 }
 .white{
   background-color: beige;
@@ -60,6 +60,11 @@
 }
 .option{
   background-color: rgb(47, 158, 255);
+  border: 1px yellow solid;
+  box-sizing: border-box;
+}
+.treated{
+  background-color: orangered;
   border: 1px yellow solid;
   box-sizing: border-box;
 }
