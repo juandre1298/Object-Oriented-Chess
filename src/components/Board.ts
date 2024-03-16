@@ -77,8 +77,7 @@ export class Board {
         if(id!=this.selectedCell.position && content){
             this.display();
         }
-        
-        this.selectedCell=this.game[column][row];
+        this.displaySelectedPiece(this.game[column][row]);
         if(content!=null){
             this.clickedPiece();
         }else{
@@ -147,6 +146,13 @@ export class Board {
                 }
             }
         })
+    }
+    displaySelectedPiece(cell:cell){
+        this.selectedCell=cell;
+        const selectedCellDisplay= document.getElementById("selectedCellDisplay");
+        if(selectedCellDisplay){
+            selectedCellDisplay.innerText=this.selectedCell.position;
+        }
     }
 
 
