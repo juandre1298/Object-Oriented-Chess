@@ -1,20 +1,29 @@
 import type { Piece } from "./Piece";
-import type { gameType, movingOptionsType, cell } from "../types";
+import type { Color,gameType, movingOptionsType, cell } from "../types";
 import { idToPos } from "../utils";
+import { Jail } from "./Jail";
 
 
 export class Board {
     size:number;
-    jail:Piece[];
     game:gameType;
+    turn:Color;
     selectedCell:cell;
+    possiblePositionsToMove:string[];
+    whiteJail:Jail;
+    blackJail:Jail;
+    
+
 
     constructor(game:gameType){
         this.size=8;
-        this.jail=[];
         this.game=game;
         this.selectedCell={position: "i9", content: null};
+        this.turn="white";
         this.display();
+        this.possiblePositionsToMove=[];
+        this.whiteJail=new Jail("white");
+        this.blackJail=new Jail("black");
         
     }
 
@@ -77,28 +86,39 @@ export class Board {
         if(id!=this.selectedCell.position && content){
             this.display();
         }
-        this.displaySelectedPiece(this.game[column][row]);
-        if(content!=null){
+        //this.displaySelectedPiece(this.game[column][row]);
+        console.log(this.possiblePositionsToMove,this.possiblePositionsToMove.includes(id))
+        if(this.possiblePositionsToMove.includes(id)){
+            this.movePiece(this.game[column][row]);
+            this.displaySelectedPiece(this.game[column][row]);
+        }else if(content!=null && this.turn==content.color){
+            this.displaySelectedPiece(this.game[column][row]);
             this.clickedPiece();
         }else{
+            this.displaySelectedPiece(this.game[column][row]);
             this.clickedEmptyCell(id);
         }
+        this.displaySelectedPiece(this.game[column][row]);
     }
     clickedPiece(){
             const id=this.selectedCell.position;
             const piece=this.selectedCell.content;
             const selectedElement = document.getElementById(id);
             if(selectedElement && piece){
+                const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
+                this.possiblePositionsToMove=[...possiblePositions.colitionArray,...possiblePositions.optionsArray];
+                
                 if(selectedElement.className.includes(" selected")){
                     selectedElement.className=selectedElement.className.replace(" selected","");
-                    const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
+                    
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
                         this.treatedOptions(possiblePositions.colitionArray)
                     }
                 }else{
+                    
                     selectedElement.className+=" selected";
-                    const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
+
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
                         this.treatedOptions(possiblePositions.colitionArray)
@@ -112,6 +132,8 @@ export class Board {
     }
     clickedEmptyCell(id:string){
         const selectedElement = document.getElementById(id);
+        this.possiblePositionsToMove=[];
+        this.display();
         if(selectedElement){
             if(selectedElement.className.includes(" empty")){
                 selectedElement.className=selectedElement.className.replace(" empty","");
@@ -152,6 +174,36 @@ export class Board {
         const selectedCellDisplay= document.getElementById("selectedCellDisplay");
         if(selectedCellDisplay){
             selectedCellDisplay.innerText=this.selectedCell.position;
+        }
+    }
+    movePiece(cell:cell){
+        console.log("trying to move piece",this.selectedCell,cell,this.possiblePositionsToMove)
+        
+        const [oldI,oldJ]=idToPos(this.selectedCell.position);
+        const [newI,newJ]=idToPos(cell.position);
+        
+        this.game[oldI][oldJ]={position:this.selectedCell.position,content:null};
+        this.game[newI][newJ]={position:cell.position,content:this.selectedCell.content};     
+        this.possiblePositionsToMove=[];
+        if(cell.content){
+            this.sendToJail(cell.content);
+        }
+        this.changeTurn();
+
+        this.display();
+    }
+    changeTurn(){
+        this.turn=this.turn=="white"?"black":"white"
+        const curretTurnDisplay= document.getElementById("curretTurnDisplay");
+        if(curretTurnDisplay){
+            curretTurnDisplay.innerText=this.turn;
+        }
+    }
+    sendToJail(piece:Piece){
+        if(piece.color=="white"){
+            this.whiteJail.sendToJail(piece);
+        }else{
+            this.blackJail.sendToJail(piece);
         }
     }
 

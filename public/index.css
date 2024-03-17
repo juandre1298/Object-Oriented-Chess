@@ -81,3 +81,20 @@
   height: 50px;
   width: 50px;
 }
+#selectedPiece{
+  display: flex;
+  
+}
+#selectedCellDisplay{
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+#turnDisplaySection{
+  display: flex;
+  
+}
+#curretTurnDisplay{
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+
