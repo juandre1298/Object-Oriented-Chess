@@ -365,20 +365,20 @@ export class Pawn extends Piece{
             const right:cell = this.checkIfCellExiste(i+1,j+1,game);
             const left:cell = this.checkIfCellExiste(i-1,j+1,game);
             
-            if(right.content){
+            if(right.content && right.content.color!="white" ){
                 colitionArray.push([i+1,j+1]);
             }
-            if(left.content){
+            if(left.content && left.content.color!="white"){
                 colitionArray.push([i-1,j+1]);
             }
         }else{
             const right:cell = this.checkIfCellExiste(i+1,j-1,game);
             const left:cell = this.checkIfCellExiste(i-1,j-1,game);
             
-            if(right.content){
+            if(right.content && right.content.color=="white"){
                 colitionArray.push([i+1,j-1]);
             }
-            if(left.content){
+            if(left.content && left.content.color=="white"){
                 colitionArray.push([i-1,j-1]);
             }
             
