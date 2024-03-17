@@ -178,7 +178,7 @@ export class Board {
     }
     movePiece(cell:cell){
         console.log("trying to move piece",this.selectedCell,cell,this.possiblePositionsToMove)
-        
+        this.selectedCell.content?.registerMoveInPieceHistory();
         const [oldI,oldJ]=idToPos(this.selectedCell.position);
         const [newI,newJ]=idToPos(cell.position);
         

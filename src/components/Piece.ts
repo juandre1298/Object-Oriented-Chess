@@ -6,10 +6,12 @@ export class Piece{
     color:Color;
     url: any;
     type:any;
+    counter:number;
     
     constructor(color:Color){
     this.id=uid();
     this.color=color;
+    this.counter=0;
 
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
@@ -50,6 +52,10 @@ export class Piece{
         }
         return {optionsArray,colitionArray};
     }
+    registerMoveInPieceHistory(){
+        this.counter++;
+    }
+    
 
 }
 
@@ -255,6 +261,7 @@ export class Knight extends Piece{
 export class Rook extends Piece{
     type:ChessPieceType;
     url:string;
+    
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Rook;
@@ -292,12 +299,10 @@ export class Rook extends Piece{
 export class Pawn extends Piece{
     type:ChessPieceType;
     url:string;
-    counter:number;
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Pawn;
         this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`
-        this.counter=0;
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
