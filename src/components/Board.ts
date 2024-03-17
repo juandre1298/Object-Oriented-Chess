@@ -1,4 +1,4 @@
-import type { Piece } from "./Piece";
+import { Piece, King, Rook } from "./Piece";
 import type { Color,gameType, movingOptionsType, cell } from "../types";
 import { idToPos } from "../utils";
 import { Jail } from "./Jail";
@@ -87,7 +87,6 @@ export class Board {
             this.display();
         }
         //this.displaySelectedPiece(this.game[column][row]);
-        console.log(this.possiblePositionsToMove,this.possiblePositionsToMove.includes(id))
         if(this.possiblePositionsToMove.includes(id)){
             this.movePiece(this.game[column][row]);
             this.displaySelectedPiece(this.game[column][row]);
@@ -124,10 +123,18 @@ export class Board {
                         this.treatedOptions(possiblePositions.colitionArray)
 
                     }
-
+                }
+                //check if king can castle
+                console.log("checking",piece.type)
+                if(piece instanceof King){
+                    const castlingOptions = piece.checkIfcastling(this.game);
+                    if (castlingOptions.length>0){
+                        this.displayOptions(castlingOptions);
+                        this.possiblePositionsToMove.push(...castlingOptions);
+                    }
                 }
             }else{
-             //   alert("id doesn't found"+id)
+              alert("id doesn't found"+id)
             }   
     }
     clickedEmptyCell(id:string){
@@ -177,20 +184,46 @@ export class Board {
         }
     }
     movePiece(cell:cell){
-        console.log("trying to move piece",this.selectedCell,cell,this.possiblePositionsToMove)
+        
         this.selectedCell.content?.registerMoveInPieceHistory();
+
+        
         const [oldI,oldJ]=idToPos(this.selectedCell.position);
         const [newI,newJ]=idToPos(cell.position);
-        
         this.game[oldI][oldJ]={position:this.selectedCell.position,content:null};
         this.game[newI][newJ]={position:cell.position,content:this.selectedCell.content};     
         this.possiblePositionsToMove=[];
         if(cell.content){
             this.sendToJail(cell.content);
         }
+        if(this.selectedCell.content && this.selectedCell.content instanceof King){
+            const canCast = this.selectedCell.content.checkIfcastling(this.game)
+            if(canCast){
+                this.castling(cell.position);
+            }
+        }
         this.changeTurn();
-
         this.display();
+    }
+    castling(castlingPosition:string){
+        if(castlingPosition=="g1"){
+            
+            this.game[5][0]={position:"f1",content:this.game[7][0].content};
+            this.game[7][0]={position:"h1",content:null};            
+        }
+        if(castlingPosition=="c1"){
+            this.game[3][0]={position:"d1",content:this.game[0][0].content};
+            this.game[0][0]={position:"a1",content:null};            
+        }
+        if(castlingPosition=="g8"){
+            this.game[5][7]={position:"f8",content:this.game[7][7].content};
+            this.game[7][7]={position:"h8",content:null};            
+        }
+        if(castlingPosition=="c8"){
+            this.game[3][7]={position:"d8",content:this.game[0][7].content};
+            this.game[0][7]={position:"a8",content:null};            
+        }
+
     }
     changeTurn(){
         this.turn=this.turn=="white"?"black":"white"

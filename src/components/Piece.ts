@@ -55,6 +55,9 @@ export class Piece{
     registerMoveInPieceHistory(){
         this.counter++;
     }
+    checkIfcastling(game:gameType):string[]{
+        return [];
+    }
     
 
 }
@@ -106,6 +109,55 @@ export class King extends Piece{
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}
         
         return {optionsArray:optionsArray.map(([a,b])=>posToId(a,b)),colitionArray:colitionArray.map(([a,b])=>posToId(a,b))}
+    }
+    checkIfcastling(game:gameType):string[]{
+        let castlingOptions:string[]=[];
+        if(this.color=="white"){
+           const castlingLeft:boolean = this.castleChecker("d1","c1","b1","a1",game);
+            if(castlingLeft){
+                castlingOptions.push("c1")
+            }
+            const castlingRight:boolean = this.castleChecker(null,"f1","g1","h1",game);
+            if(castlingRight){
+                castlingOptions.push("g1")
+            }
+        }else{
+            const castlingLeft:boolean = this.castleChecker("d8","c8","b8","a8",game);
+            if(castlingLeft){
+                castlingOptions.push("c8")
+            }
+            const castlingRight:boolean = this.castleChecker(null,"f8","g8","h8",game);
+            if(castlingRight){
+                castlingOptions.push("g8")
+            }
+        }
+        return castlingOptions;
+    }
+    castleChecker(queenPosition:string|null,bishopPosition:string,knightPositions:string,rookPosition:string,game:gameType):boolean{
+
+            const bishopPositionNum:number[] = idToPos(bishopPosition);
+            const knightPositionNum:number[] = idToPos(knightPositions);
+
+            const bishopCell:cell = game[bishopPositionNum[0]][bishopPositionNum[1]];
+            const knightCell:cell = game[knightPositionNum[0]][knightPositionNum[1]];
+            
+            let queenCell:cell = {position:"",content:null};
+            if(queenPosition){
+                 const queenPositionNum:number[] = idToPos(queenPosition);
+                 queenCell=game[queenPositionNum[0]][queenPositionNum[1]];
+            }
+            
+
+            if( !bishopCell.content && !knightCell.content && !queenCell.content ){
+                    const rookPositionNum:number[] = idToPos(rookPosition);
+                    const rookCell =game[rookPositionNum[0]][rookPositionNum[1]];
+                    if(rookCell.content instanceof Rook){
+                            if(this.counter==0 && rookCell.content.counter==0){
+                                return true;
+                            }                        
+                    }
+                }     
+            return false;    
     }
     
 }
@@ -248,14 +300,11 @@ export class Knight extends Piece{
                         optionsArray.push([i,j]) 
                         
                     }
-                }else{
-                    
-                }
-    
-            
+                }else{          
+                }   
         }
         return {optionsArray,colitionArray};
-    }
+    }    
 
 }
 export class Rook extends Piece{

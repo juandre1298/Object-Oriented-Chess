@@ -1,7 +1,7 @@
 import type { cell,gameType } from "./types";
 import { Board } from "./components/Board";
 import { Piece, Rook, Knight, Bishop, King, Queen, Pawn } from "./components/Piece";
-import { posToId } from "./utils";
+import { idToPos, posToId } from "./utils";
 
 
 const gameBoard = document.getElementById("gameBoardSection") as HTMLDivElement;
@@ -23,5 +23,15 @@ for(let i:number = 0 ; i<8; i++){
   column.push({position:posToId(i,7),content:new gameArrange[i]("black")});
   game.push(column);
 }
+// remove f1 and g1
+function removePiece(id:string){
+  const pos = idToPos(id);
+  game[pos[0]][pos[1]]={position:id,content:null};
+}
+// removePiece("d1");
+
+
+
+
 
 const board = new Board(game);
