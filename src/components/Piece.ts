@@ -319,7 +319,6 @@ export class Pawn extends Piece{
                 possibleNextPositions[0].push([i, j - 2]);
             }
         }
-        this.counter++;
 
         const {optionsArray,colitionArray}:{[key:string]:number[][]}=this.possibleMoves([i,j],possibleNextPositions,game);
         // return {optionsArray.map(([a,b])=>posToId(a,b)),colitionArray}

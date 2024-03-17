@@ -10,7 +10,7 @@ gameBoard.className="boardSection"
 let game:gameType= [];
 
 // start game
-const gameArrange:any[] = [Rook, Knight, Bishop, King, Queen,Bishop, Knight, Rook ]
+const gameArrange:any[] = [Rook, Knight, Bishop,Queen,King,Bishop, Knight, Rook ]
 for(let i:number = 0 ; i<8; i++){
   const column:cell[]=[];
   
