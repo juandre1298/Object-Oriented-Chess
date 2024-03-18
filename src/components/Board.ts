@@ -1,7 +1,8 @@
-import { Piece, King, Rook } from "./Piece";
+import { Piece, King, Rook, Pawn } from "./Piece";
 import type { Color,gameType, movingOptionsType, cell } from "../types";
 import { idToPos } from "../utils";
 import { Jail } from "./Jail";
+import { CrowningMenu } from "./CrowningMenu";
 
 
 export class Board {
@@ -202,8 +203,19 @@ export class Board {
                 this.castling(cell.position);
             }
         }
+        if( this.selectedCell.content && 
+            this.selectedCell.content instanceof Pawn &&
+            ((this.selectedCell.content.color=="white" && newJ == 7) ||
+            (this.selectedCell.content.color=="black" && newJ == 0))
+            ){
+            
+                console.log("wants to be crowned")
+                const crowingOptions = new CrowningMenu(this.selectedCell.content,this.game[newI][newJ]);
+        }else{
+            this.display();
+        }
         this.changeTurn();
-        this.display();
+        
     }
     castling(castlingPosition:string){
         if(castlingPosition=="g1"){

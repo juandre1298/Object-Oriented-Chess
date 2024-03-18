@@ -42,5 +42,5 @@ game[6][6]={position:"g7",content:new Pawn("white")}
 console.log(game)
 
 const board = new Board(game);
-const crowmingMenu = new CrowningMenu();
-crowmingMenu.render("g8");
+// const crowmingMenu = new CrowningMenu();
+// crowmingMenu.render("g8");
