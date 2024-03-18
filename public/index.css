@@ -101,5 +101,24 @@
 .jail{
   display: flex;
 }
-
+.crowningOptionsSection{
+  display: flex;
+  gap: 4px;
+  background-color: grey;
+  padding: 4px;
+  border: black 1px solid;
+  border-radius: 10px;
+  position: absolute;
+  top: -40px;
+  left: -200%;
+  z-index: 100;
+}
+.crowningOptionsCard{
+  background-color: white;
+  padding: 8px;
+  border-radius: 5px;
+}
+.crowningOptionsCard :hover{
+  background-color: yellow;
+}
 
