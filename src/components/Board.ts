@@ -99,10 +99,9 @@ export class Board {
             this.clickedEmptyCell(id);
         }
     }
-    createColorScreen(cell:cell,className:string){
+    createColorScreen(cellElement:HTMLElement,className:string){
         const screen = document.createElement("div") as HTMLDivElement;
         screen.className=className+" square filter";
-        const cellElement = document.getElementById(cell.position);
         cellElement?.appendChild(screen);
         
     }
@@ -122,7 +121,7 @@ export class Board {
                         this.treatedOptions(possiblePositions.colitionArray)
                     }
                 }else{
-                    this.createColorScreen(this.selectedCell,"selected");
+                    this.createColorScreen(selectedElement,"selected");
 
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
@@ -170,6 +169,7 @@ export class Board {
                     selectedElement.className=selectedElement.className.replace(" option","");
                 }else{
                     selectedElement.className+=" option";
+                    this.createColorScreen(selectedElement,"option");
                 }
             }
         })
