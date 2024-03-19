@@ -98,7 +98,6 @@ export class Board {
             this.displaySelectedPiece(this.game[column][row]);
             this.clickedEmptyCell(id);
         }
-        this.displaySelectedPiece(this.game[column][row]);
     }
     clickedPiece(){
             const id=this.selectedCell.position;
@@ -126,7 +125,6 @@ export class Board {
                     }
                 }
                 //check if king can castle
-                console.log("checking",piece.type)
                 if(piece instanceof King){
                     const castlingOptions = piece.checkIfcastling(this.game);
                     if (castlingOptions.length>0){
@@ -138,21 +136,27 @@ export class Board {
               alert("id doesn't found"+id)
             }   
     }
-    clickedEmptyCell(id:string){
+    clickedEmptyCell(id:string) {
+        
         const selectedElement = document.getElementById(id);
-        this.possiblePositionsToMove=[];
-        this.display();
-        if(selectedElement){
-            if(selectedElement.className.includes(" empty")){
-                selectedElement.className=selectedElement.className.replace(" empty","");
-            }else{
-                selectedElement.className+=" empty";
-                setTimeout(()=>selectedElement.className=selectedElement.className.replace(" empty",""),200);
+        this.possiblePositionsToMove = [];
+  
+        if (selectedElement) {
+            if (selectedElement.classList.contains("empty2")) {
+                selectedElement.classList.remove("empty2");
+            } else {
+                selectedElement.classList.add("empty2");
+               
+                 setTimeout(() => {
+                     this.display();
+                 }, 200);
             }
-        }else{
-            alert("id doesn't found"+id)
+        } else {
+            alert("id not found: " + id);
         }
+     
     }
+    
     displayOptions(possiblePositions:string[]){
         possiblePositions.forEach(e=>{
             const selectedElement = document.getElementById(e);
@@ -208,8 +212,6 @@ export class Board {
             ((this.selectedCell.content.color=="white" && newJ == 7) ||
             (this.selectedCell.content.color=="black" && newJ == 0))
             ){
-            
-                console.log("wants to be crowned")
                 const crowingOptions = new CrowningMenu(this.selectedCell.content,this.game[newI][newJ]);
         }else{
             this.display();

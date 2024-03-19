@@ -1,3 +1,31 @@
+body {
+  /* Set the image path */
+  background-image: url('detailed-grunge-background.jpg');
+
+  /* Set background size to cover entire body */
+  background-size: cover;
+
+  /* Center the background image */
+  background-position: center;
+
+  /* Optionally, you can specify whether the background image should repeat */
+  background-repeat: no-repeat;
+
+  /* Optionally, you can specify a fallback background color */
+  background-color: black; /* Fallback color in case the image doesn't load or is transparent */
+  
+  /* Add any other styles you need for the body */
+  margin: 0; /* Remove default body margin */
+  padding: 0; /* Remove default body padding */
+  height: 100hv;
+}
+.background-container{
+  
+  margin: 0;
+  padding: 0;
+
+}
+
 #img {
   display: block;
   margin: auto;
@@ -55,8 +83,9 @@
 .selected{
   background-color: yellow;
 }
-.empty{
+.empty2{
   background-color: red;
+  
 }
 .option{
   background-color: rgb(47, 158, 255);
