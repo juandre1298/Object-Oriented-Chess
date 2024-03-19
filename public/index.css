@@ -1,45 +1,3 @@
-body {
-  /* Set the image path */
-  background-image: url('detailed-grunge-background.jpg');
-
-  /* Set background size to cover entire body */
-  background-size: cover;
-
-  /* Center the background image */
-  background-position: center;
-
-  /* Optionally, you can specify whether the background image should repeat */
-  background-repeat: no-repeat;
-
-  /* Optionally, you can specify a fallback background color */
-  background-color: black; /* Fallback color in case the image doesn't load or is transparent */
-  
-  /* Add any other styles you need for the body */
-  margin: 0; /* Remove default body margin */
-  padding: 0; /* Remove default body padding */
-  height: 100hv;
-}
-.background-container{
-  
-  margin: 0;
-  padding: 0;
-
-}
-
-#img {
-  display: block;
-  margin: auto;
-  height: 128px;
-  width: 128px;
-  padding: 2rem;
-}
-
-#canvas {
-  display: block;
-  margin: 2rem auto;
-  width: 540px;
-  height: 540px;
-}
 
 .boardSection{
   display: flex;
@@ -66,6 +24,7 @@ body {
 .horizontalTableArray{
   display: flex;
 }
+
 .square{
   height: 50px;
   width: 50px;
@@ -73,15 +32,32 @@ body {
   font-size: 11px;
   text-transform:uppercase;
   position: relative;
+  object-fit: scale-down;
+  box-sizing: border-box;
+}
+.filter{
+  position: absolute;
+  top:0;
 }
 .black{
-  background-color:  darkgreen ;
+  background-image: url("black-marbel.jpg");
+  object-fit: scale-down;
+  background-size: cover; /* Scale the background image to cover the entire container */
+  background-position: center; /* Center the background image within the container */
+  background-repeat: no-repeat; /
 }
 .white{
-  background-color: beige;
+  /* background-color: beige; */
+  background-image: url("white-marbel.jpg");
+  object-fit: scale-down;
+  background-size: cover; /* Scale the background image to cover the entire container */
+  background-position: center; /* Center the background image within the container */
+  background-repeat: no-repeat; /
 }
 .selected{
-  background-color: yellow;
+  background-color: rgba(222, 193, 43, 0.2);
+  border: solid rgba(222, 193, 43, 0.1) 2px;
+  box-shadow: inset 0 0 10px rgba(222, 193, 43, 0.79);
 }
 .empty2{
   background-color: red;
@@ -90,7 +66,7 @@ body {
 .option{
   background-color: rgb(47, 158, 255);
   border: 1px yellow solid;
-  box-sizing: border-box;
+  
 }
 .treated{
   background-color: orangered;

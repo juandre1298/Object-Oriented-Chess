@@ -99,6 +99,13 @@ export class Board {
             this.clickedEmptyCell(id);
         }
     }
+    createColorScreen(cell:cell,className:string){
+        const screen = document.createElement("div") as HTMLDivElement;
+        screen.className=className+" square filter";
+        const cellElement = document.getElementById(cell.position);
+        cellElement?.appendChild(screen);
+        
+    }
     clickedPiece(){
             const id=this.selectedCell.position;
             const piece=this.selectedCell.content;
@@ -107,16 +114,15 @@ export class Board {
                 const possiblePositions:movingOptionsType = piece.movingOptions(id,this.game);
                 this.possiblePositionsToMove=[...possiblePositions.colitionArray,...possiblePositions.optionsArray];
                 
-                if(selectedElement.className.includes(" selected")){
-                    selectedElement.className=selectedElement.className.replace(" selected","");
-                    
+                if(selectedElement.getElementsByClassName("selected").length != 0){
+                    const selectedElementScreen = selectedElement.getElementsByClassName("selected")[0];
+                    selectedElement.removeChild(selectedElementScreen);
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
                         this.treatedOptions(possiblePositions.colitionArray)
                     }
                 }else{
-                    
-                    selectedElement.className+=" selected";
+                    this.createColorScreen(this.selectedCell,"selected");
 
                     if(possiblePositions){
                         this.displayOptions(possiblePositions.optionsArray);
@@ -156,7 +162,6 @@ export class Board {
         }
      
     }
-    
     displayOptions(possiblePositions:string[]){
         possiblePositions.forEach(e=>{
             const selectedElement = document.getElementById(e);
