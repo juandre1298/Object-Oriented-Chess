@@ -26,7 +26,7 @@ export class Jail{
         const jailDisplaySection = document.getElementById(`${this.color}sJail`);
 
         if(jailDisplaySection){
-            jailDisplaySection.innerHTML="Started jail "+this.color;
+            jailDisplaySection.innerHTML="";
         }
         this.jail.forEach((currentCell,i) =>{
             console.log(currentCell);

@@ -1,5 +1,5 @@
 import { Piece, King, Rook, Pawn } from "./Piece";
-import type { Color,gameType, movingOptionsType, cell } from "../types";
+import type { Color,gameType, ChessPieceType, movingOptionsType, cell } from "../types";
 import { idToPos } from "../utils";
 import { Jail } from "./Jail";
 import { CrowningMenu } from "./CrowningMenu";
@@ -41,7 +41,7 @@ export class Board {
                                     let newCell = this.createEmptyCell(cell.position)
                                     // add piece
                                     if (cell.content != null){
-                                        this.addPieceToEmptyCell(cell.content,newCell);
+                                        this.addPieceToEmptyCell(cell,newCell);
                                     }
                                     columnDiv.appendChild(newCell)
                                 } 
@@ -73,13 +73,22 @@ export class Board {
         }
         return newCell;
     }
-    addPieceToEmptyCell(piece:Piece,emptyCell:HTMLDivElement){
+    addPieceToEmptyCell(cell:cell,emptyCell:HTMLDivElement){
         const pieceElement = document.createElement("div");
-            pieceElement.id = piece.id;
-            pieceElement.className = "piece";
+        pieceElement.addEventListener("click",(event:MouseEvent)=>event.stopPropagation());
+        pieceElement.style.pointerEvents = 'none';
+        const [i,j]=idToPos(cell.position);
+        if(cell.content){
+            const piece = cell.content
+            pieceElement.id = cell.content.id;
+            piece
+            pieceElement.className = "piece "+cell.content.type;
+            const zIndex =100+(8-j);
+            pieceElement.style.zIndex = zIndex.toString()
             pieceElement.innerHTML=`<img src=${piece.url} alt=${piece.type+piece.id}/>`;
-            // Set class or other attributes based on piece type if needed
             emptyCell.appendChild(pieceElement);
+        }
+
     }
     handleClick(id:string){
         const [column,row]=idToPos(id);
@@ -257,6 +266,13 @@ export class Board {
         }else{
             this.blackJail.sendToJail(piece);
         }
+        if(piece instanceof King){
+            this.killTheKing(piece.color)
+        }
+    }
+    killTheKing(color:Color){
+        alert(color+" king got killed!");
+        
     }
 
 

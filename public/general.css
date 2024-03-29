@@ -8,16 +8,9 @@ body {
   .table{
     background-image: url("table-top-view.jpeg");
     display: inline-block;
-    /* max-width: 400px;
-    max-height: 400px; */
-    padding: 60px;
-    border-radius: 10px;
-    
-    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.3), inset 0px 0px 20px 10px rgba(0,0,0, 0.3);
-   
-    transform: scale(1);
-    transition: transform 0.3s ease-in-out;
-  
+    transform: perspective(700px) rotateX(10deg);
+    padding: 40px;
+    border-radius: 5px;
   }
   
   .mainTitle{
@@ -40,7 +33,11 @@ body {
   .jailContainer{
     height: 60px;
     width: 400px;
+    background-image: url();
     
+  }
+  .jail{
+    display: block;
   }
 
   

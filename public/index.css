@@ -74,16 +74,42 @@
 
 .piece{
  position:absolute;
- top: 0;
+ bottom: 10px;
  z-index: 100;
  display: flex;
+ left: -10px;
  align-items: center;
  justify-content: center;
+ transform: perspective(0) rotateX(0);
+ 
 }
 .piece img{
-  height: 50px;
-  width: 50px;
+  transform: perspective(0) rotateX(0);
+  height: 70px;
+  width: 70px;
 }
+.king{
+  left: -25px;
+  top: -45px;
+}
+.king img{
+  height: 100px;
+  width: 100px;
+}
+.queen{
+  left: -25px;
+  top: -45px;
+}
+.queen img{
+  height: 100px;
+  width: 100px;
+}
+
+.rook img{
+  height: 60px;
+  width: 60px;
+}
+
 #selectedPiece{
   display: flex;
 }

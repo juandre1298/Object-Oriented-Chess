@@ -28,7 +28,6 @@ for(let i:number = 0 ; i<8; i++){
   //   column.push({position:posToId(i,c).toString(),content:null});
   // }
   // game.push(column);
-
 }
 // remove f1 and g1
 function removePiece(id:string){

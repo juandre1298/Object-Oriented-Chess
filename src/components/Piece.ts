@@ -68,7 +68,7 @@ export class King extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.King;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`    
        
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
@@ -167,7 +167,7 @@ export class Queen extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Queen;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`    
   
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
@@ -216,7 +216,7 @@ export class Bishop extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Bishop;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`    
        
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
@@ -254,7 +254,7 @@ export class Knight extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Knight;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`    
        
     }
 
@@ -314,7 +314,7 @@ export class Rook extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Rook;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`    
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`    
        
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
@@ -351,7 +351,7 @@ export class Pawn extends Piece{
     constructor(color:Color){
         super(color);
         this.type = ChessPieceType.Pawn;
-        this.url=`pieces-svg/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.svg`
+        this.url=`pieces-png/${this.type.toLowerCase()}-${this.color=="white"?"w":"b"}.png`
     }
     movingOptions(position:string,game:gameType):movingOptionsType{
         const [i,j]=idToPos(position);  
