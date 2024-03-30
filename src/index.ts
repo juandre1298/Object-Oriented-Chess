@@ -9,7 +9,7 @@ const gameBoard = document.getElementById("gameBoardSection") as HTMLDivElement;
 gameBoard.className="boardSection"
 
 let game:gameType= [];
-
+console.log("index.js running")
 // start game
 const gameArrange:any[] = [Rook, Knight, Bishop,Queen,King,Bishop, Knight, Rook ]
 for(let i:number = 0 ; i<8; i++){
