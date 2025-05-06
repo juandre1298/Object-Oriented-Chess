@@ -1,6 +1,6 @@
 import { Piece, King, Rook, Pawn } from "./Piece";
 import type { Color,gameType, ChessPieceType, movingOptionsType, cell } from "../types";
-import { idToPos } from "../utils";
+import { idToPos, cloneGame, checkIquality } from "../utils";
 import { Jail } from "./Jail";
 import { CrowningMenu } from "./CrowningMenu";
 
@@ -8,6 +8,8 @@ import { CrowningMenu } from "./CrowningMenu";
 export class Board {
     size:number;
     game:gameType;
+    previousState:gameType;
+    started:boolean;
     turn:Color;
     selectedCell:cell;
     possiblePositionsToMove:string[];
@@ -17,8 +19,11 @@ export class Board {
 
 
     constructor(game:gameType){
+        this.started = false;
         this.size=8;
         this.game=game;
+        this.previousState=cloneGame(game);
+        console.log(game)
         this.selectedCell={position: "i9", content: null};
         this.turn="white";
         this.display();
@@ -30,24 +35,51 @@ export class Board {
 
     display(){
         const boardDisplaySection = document.getElementById("gameBoardSection");
-        if(boardDisplaySection){
+        if(boardDisplaySection && !this.started){
             boardDisplaySection.innerHTML="";
+            this.firstRender(boardDisplaySection);
+            this.started= true;
+        }else{
+            this.updateRender(boardDisplaySection);
         }
+
+    }
+    firstRender(boardDisplaySection:HTMLElement){
         this.game.forEach((column,i) =>{
-                            const columnDiv = document.createElement("div");
-                            columnDiv.className="boardColumn"
-                            column.forEach(
-                                (cell,j) => {
-                                    let newCell = this.createEmptyCell(cell.position)
-                                    // add piece
-                                    if (cell.content != null){
-                                        this.addPieceToEmptyCell(cell,newCell);
-                                    }
-                                    columnDiv.appendChild(newCell)
-                                } 
-                            )
-                            boardDisplaySection?.appendChild(columnDiv);
-                            
+            const columnDiv = document.createElement("div");
+            columnDiv.className="boardColumn"
+            column.forEach(
+                (cell,j) => {
+                    let newCell = this.createEmptyCell(cell.position)
+                    // add piece
+                    if (cell.content != null){
+                        this.addPieceToEmptyCell(cell,newCell);
+                    }
+                    columnDiv.appendChild(newCell)
+                } 
+            )
+            boardDisplaySection?.appendChild(columnDiv);                            
+        })
+    }
+    updateRender(boardDisplaySection:HTMLElement|null){
+        console.log('updating board');
+        this.game.forEach((column,i) =>{
+            column.forEach(
+                (cell,j) => {
+                    if(!checkIquality(this.previousState[i][j], cell)){
+                        console.log({i,j,log: 'have changed'})
+                        this.emptyCell(cell.position);
+                        let newCell = document.getElementById(cell.position)
+                        // add piece
+                        if(newCell){
+                            if (cell.content != null){
+                                this.addPieceToEmptyCell(cell,newCell);
+                            }
+                        }   
+                    }
+                } 
+            )
+                           
         })
     }
     createEmptyCell(position:string){
@@ -73,7 +105,33 @@ export class Board {
         }
         return newCell;
     }
-    addPieceToEmptyCell(cell:cell,emptyCell:HTMLDivElement){
+    emptyCell(position:string){
+        const [i,j]=idToPos(position);
+        const cellElement = document.querySelector(`#${position} .piece`);
+        cellElement?.remove();
+
+
+        // newCell.id= id;
+        // newCell.textContent=id;
+        // newCell.addEventListener("click",()=>this.handleClick(id))
+        // switch (true) {
+        //     case (i % 2 == 0 && j % 2 == 0):
+        //         newCell.className = "black square";
+        //         break;
+        //     case (i % 2 == 0 && j % 2 != 0):
+        //         newCell.className = "white square";
+        //         break;
+        //     case (i % 2 != 0 && j % 2 == 0):
+        //         newCell.className = "white square";
+        //         break;
+        //     case (i % 2 != 0 && j % 2 != 0):
+        //         newCell.className = "black square";
+        //         break;
+        // }
+        // return newCell;
+    }
+    addPieceToEmptyCell(cell:cell,emptyCell:HTMLElement){
+        if(!emptyCell) return 
         const pieceElement = document.createElement("div");
         pieceElement.addEventListener("click",(event:MouseEvent)=>event.stopPropagation());
         pieceElement.style.pointerEvents = 'none';
@@ -203,7 +261,7 @@ export class Board {
         }
     }
     movePiece(cell:cell){
-        
+        this.previousState=structuredClone(this.game);
         this.selectedCell.content?.registerMoveInPieceHistory();
 
         
